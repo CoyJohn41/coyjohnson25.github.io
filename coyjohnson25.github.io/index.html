@@ -1,0 +1,840 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Coy Johnson — Quantitative Researcher</title>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #F8F6F2;
+      --bg2: #EFECE6;
+      --ink: #1A1A18;
+      --ink2: #4A4A45;
+      --ink3: #8A8A82;
+      --accent: #2D5F4F;
+      --accent2: #C8A96E;
+      --border: #E0DDD6;
+      --card: #FFFFFF;
+      --tag-bg: #EAF2EF;
+      --tag-txt: #2D5F4F;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--bg);
+      color: var(--ink);
+      font-size: 16px;
+      line-height: 1.65;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0;
+      z-index: 100;
+      background: rgba(248,246,242,0.92);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 6vw;
+      height: 64px;
+    }
+    .nav-name {
+      font-family: 'DM Serif Display', serif;
+      font-size: 1.1rem;
+      color: var(--ink);
+      letter-spacing: 0.01em;
+    }
+    .nav-links { display: flex; gap: 2rem; list-style: none; }
+    .nav-links a {
+      font-size: 0.85rem;
+      font-weight: 500;
+      color: var(--ink2);
+      text-decoration: none;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--accent); }
+
+    /* ── SECTIONS ── */
+    section { padding: 100px 6vw; max-width: 1100px; margin: 0 auto; }
+    section:first-of-type { padding-top: 140px; }
+
+    /* ── HERO ── */
+    #hero {
+      min-height: 92vh;
+      display: flex; flex-direction: column; justify-content: center;
+      padding-top: 120px;
+      position: relative;
+    }
+    .hero-eyebrow {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.78rem;
+      color: var(--accent);
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      margin-bottom: 1.5rem;
+      opacity: 0;
+      animation: fadeUp 0.7s ease 0.1s forwards;
+    }
+    .hero-name {
+      font-family: 'DM Serif Display', serif;
+      font-size: clamp(3.2rem, 7vw, 5.5rem);
+      line-height: 1.05;
+      letter-spacing: -0.02em;
+      color: var(--ink);
+      opacity: 0;
+      animation: fadeUp 0.7s ease 0.25s forwards;
+    }
+    .hero-name em {
+      font-style: italic;
+      color: var(--accent);
+    }
+    .hero-title {
+      margin-top: 1.5rem;
+      font-size: 1.1rem;
+      font-weight: 300;
+      color: var(--ink2);
+      max-width: 540px;
+      opacity: 0;
+      animation: fadeUp 0.7s ease 0.4s forwards;
+    }
+    .hero-tags {
+      display: flex; flex-wrap: wrap; gap: 0.6rem;
+      margin-top: 2rem;
+      opacity: 0;
+      animation: fadeUp 0.7s ease 0.55s forwards;
+    }
+    .tag {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.72rem;
+      padding: 0.35rem 0.85rem;
+      background: var(--tag-bg);
+      color: var(--tag-txt);
+      border-radius: 2px;
+      letter-spacing: 0.05em;
+    }
+    .hero-cta {
+      display: flex; gap: 1rem; flex-wrap: wrap;
+      margin-top: 2.5rem;
+      opacity: 0;
+      animation: fadeUp 0.7s ease 0.7s forwards;
+    }
+    .btn {
+      display: inline-block;
+      padding: 0.75rem 1.75rem;
+      font-size: 0.85rem;
+      font-weight: 600;
+      text-decoration: none;
+      border-radius: 3px;
+      letter-spacing: 0.03em;
+      transition: all 0.2s;
+    }
+    .btn-primary {
+      background: var(--accent);
+      color: #fff;
+    }
+    .btn-primary:hover { background: #224840; transform: translateY(-1px); }
+    .btn-secondary {
+      background: transparent;
+      color: var(--ink);
+      border: 1.5px solid var(--border);
+    }
+    .btn-secondary:hover { border-color: var(--accent); color: var(--accent); }
+
+    .hero-decoration {
+      position: absolute; right: 0; top: 50%;
+      transform: translateY(-50%);
+      width: 340px; height: 340px;
+      border-radius: 50%;
+      background: radial-gradient(circle at 60% 40%, #d8ede8 0%, #e8f4f0 40%, transparent 70%);
+      pointer-events: none;
+      opacity: 0;
+      animation: fadeIn 1.2s ease 0.8s forwards;
+    }
+    .hero-formula {
+      position: absolute; right: 60px; top: 50%;
+      transform: translateY(-50%);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.75rem;
+      color: var(--accent);
+      opacity: 0;
+      animation: fadeIn 1s ease 1.1s forwards;
+      text-align: center;
+      line-height: 2;
+    }
+
+    /* ── DIVIDER ── */
+    .section-divider {
+      width: 48px; height: 2px;
+      background: var(--accent2);
+      margin-bottom: 1rem;
+    }
+    .section-label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.72rem;
+      color: var(--ink3);
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      margin-bottom: 0.5rem;
+    }
+    .section-heading {
+      font-family: 'DM Serif Display', serif;
+      font-size: clamp(1.8rem, 3.5vw, 2.6rem);
+      color: var(--ink);
+      line-height: 1.2;
+      margin-bottom: 1rem;
+    }
+
+    /* ── ABOUT ── */
+    #about { border-top: 1px solid var(--border); }
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      margin-top: 3rem;
+      align-items: start;
+    }
+    .about-text p {
+      color: var(--ink2);
+      margin-bottom: 1rem;
+      font-size: 1rem;
+    }
+    .about-interests { margin-top: 2rem; }
+    .about-interests h4 {
+      font-size: 0.8rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--ink3);
+      margin-bottom: 0.75rem;
+    }
+    .interest-list {
+      list-style: none;
+      display: flex; flex-direction: column; gap: 0.5rem;
+    }
+    .interest-list li {
+      font-size: 0.9rem;
+      color: var(--ink2);
+      padding-left: 1rem;
+      position: relative;
+    }
+    .interest-list li::before {
+      content: '→';
+      position: absolute; left: 0;
+      color: var(--accent);
+      font-size: 0.8rem;
+    }
+    .about-stats {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+    }
+    .stat-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      padding: 1.5rem;
+      border-radius: 4px;
+    }
+    .stat-num {
+      font-family: 'DM Serif Display', serif;
+      font-size: 2.2rem;
+      color: var(--accent);
+      line-height: 1;
+    }
+    .stat-label {
+      font-size: 0.78rem;
+      color: var(--ink3);
+      margin-top: 0.25rem;
+      font-weight: 500;
+    }
+
+    /* ── EDUCATION ── */
+    #education { background: var(--bg2); border-radius: 8px; max-width: 100%; padding: 80px 6vw; }
+    .edu-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
+      margin-top: 3rem;
+    }
+    .edu-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 2rem;
+      position: relative;
+      overflow: hidden;
+    }
+    .edu-card::before {
+      content: '';
+      position: absolute; top: 0; left: 0;
+      width: 4px; height: 100%;
+      background: var(--accent);
+    }
+    .edu-degree {
+      font-family: 'DM Serif Display', serif;
+      font-size: 1.25rem;
+      color: var(--ink);
+      margin-bottom: 0.25rem;
+    }
+    .edu-school {
+      font-size: 0.85rem;
+      color: var(--accent);
+      font-weight: 600;
+      margin-bottom: 0.15rem;
+    }
+    .edu-year {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.72rem;
+      color: var(--ink3);
+      margin-bottom: 1.25rem;
+    }
+    .edu-courses h5 {
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--ink3);
+      margin-bottom: 0.6rem;
+      font-weight: 600;
+    }
+    .course-tags {
+      display: flex; flex-wrap: wrap; gap: 0.4rem;
+    }
+    .course-tag {
+      font-size: 0.72rem;
+      padding: 0.2rem 0.6rem;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 2px;
+      color: var(--ink2);
+    }
+
+    /* ── SKILLS ── */
+    #skills { border-top: 1px solid var(--border); }
+    .skills-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+      margin-top: 3rem;
+    }
+    .skill-block {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 1.75rem;
+    }
+    .skill-block-icon {
+      font-size: 1.4rem;
+      margin-bottom: 0.75rem;
+    }
+    .skill-block-title {
+      font-weight: 600;
+      font-size: 0.9rem;
+      color: var(--ink);
+      margin-bottom: 0.75rem;
+    }
+    .skill-pills {
+      display: flex; flex-wrap: wrap; gap: 0.4rem;
+    }
+    .skill-pill {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.7rem;
+      padding: 0.25rem 0.65rem;
+      border-radius: 2px;
+      background: var(--tag-bg);
+      color: var(--tag-txt);
+      font-weight: 500;
+    }
+
+    /* ── PROJECTS ── */
+    #projects { border-top: 1px solid var(--border); }
+    .projects-intro {
+      color: var(--ink2);
+      max-width: 560px;
+      margin-top: 0.5rem;
+      font-size: 0.95rem;
+    }
+    .projects-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+      margin-top: 3rem;
+    }
+    .project-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 2rem;
+      transition: transform 0.2s, border-color 0.2s, box-shadow 0.2s;
+      cursor: pointer;
+      text-decoration: none;
+      display: block;
+      color: inherit;
+    }
+    .project-card:hover {
+      transform: translateY(-3px);
+      border-color: var(--accent);
+      box-shadow: 0 8px 32px rgba(45,95,79,0.08);
+    }
+    .project-num {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.68rem;
+      color: var(--ink3);
+      margin-bottom: 1rem;
+      letter-spacing: 0.1em;
+    }
+    .project-title {
+      font-family: 'DM Serif Display', serif;
+      font-size: 1.2rem;
+      color: var(--ink);
+      margin-bottom: 0.6rem;
+    }
+    .project-desc {
+      font-size: 0.88rem;
+      color: var(--ink2);
+      line-height: 1.6;
+      margin-bottom: 1.25rem;
+    }
+    .project-stack {
+      display: flex; flex-wrap: wrap; gap: 0.35rem;
+      margin-bottom: 1.25rem;
+    }
+    .project-tag {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.65rem;
+      padding: 0.2rem 0.55rem;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 2px;
+      color: var(--ink3);
+    }
+    .project-link {
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--accent);
+      display: flex; align-items: center; gap: 0.3rem;
+    }
+    .project-link::after { content: ' →'; }
+    .project-card:hover .project-link { text-decoration: underline; }
+
+    /* ── CONTACT ── */
+    #contact {
+      background: var(--ink);
+      border-radius: 8px;
+      max-width: 100%;
+      padding: 80px 6vw;
+      text-align: center;
+    }
+    #contact .section-label { color: var(--accent2); }
+    #contact .section-heading { color: #fff; }
+    .contact-sub {
+      color: #aaa;
+      max-width: 480px;
+      margin: 1rem auto 2.5rem;
+      font-size: 0.95rem;
+    }
+    .contact-links {
+      display: flex; justify-content: center; gap: 1.5rem; flex-wrap: wrap;
+    }
+    .contact-item {
+      display: flex; flex-direction: column; align-items: center; gap: 0.3rem;
+      text-decoration: none;
+      color: #ccc;
+      font-size: 0.85rem;
+      transition: color 0.2s;
+    }
+    .contact-item:hover { color: var(--accent2); }
+    .contact-item-icon { font-size: 1.5rem; }
+    .contact-item-label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.72rem;
+      letter-spacing: 0.05em;
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      text-align: center;
+      padding: 2.5rem 6vw;
+      font-size: 0.78rem;
+      color: var(--ink3);
+      border-top: 1px solid var(--border);
+    }
+
+    /* ── ANIMATIONS ── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(18px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to   { opacity: 1; }
+    }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity 0.65s ease, transform 0.65s ease;
+    }
+    .reveal.visible {
+      opacity: 1;
+      transform: none;
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 768px) {
+      nav { padding: 0 5vw; }
+      .nav-links { display: none; }
+      .about-grid, .edu-grid, .skills-grid, .projects-grid { grid-template-columns: 1fr; }
+      .hero-decoration, .hero-formula { display: none; }
+      .about-stats { grid-template-columns: 1fr 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <span class="nav-name">Coy Johnson</span>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#education">Education</a></li>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-eyebrow">Quantitative Researcher &amp; Applied Mathematician</div>
+  <h1 class="hero-name">Coy<br><em>Johnson</em></h1>
+  <p class="hero-title">
+    M.S. Mathematics Candidate applying mathematical rigor and computational thinking to data-driven systems and statistical modeling.
+  </p>
+  <div class="hero-tags">
+    <span class="tag">Statistical Inference</span>
+    <span class="tag">Mathematical Modeling</span>
+    <span class="tag">Computational Methods</span>
+    <span class="tag">Stochastic Processes</span>
+    <span class="tag">ML Foundations</span>
+  </div>
+  <div class="hero-cta">
+    <a href="#projects" class="btn btn-primary">View Projects</a>
+    <a href="#contact" class="btn btn-secondary">Get in Touch</a>
+  </div>
+  <div class="hero-decoration"></div>
+  <div class="hero-formula">
+    f(x) = ∫ p(θ|x) dθ<br>
+    ∇L(w) = -Σ yᵢ xᵢ<br>
+    dX = μ dt + σ dW
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="section-label">01 — About</div>
+  <div class="section-divider"></div>
+  <h2 class="section-heading">Built on Mathematical Foundations</h2>
+  <div class="about-grid">
+    <div class="about-text reveal">
+      <p>
+        I'm a graduate mathematics student with a dual background in physics and mathematics — trained to think rigorously about complex systems, model uncertainty, and extract structure from data.
+      </p>
+      <p>
+        My approach isn't to use tools blindly. It's to understand the mathematics underneath — then build with it. From Monte Carlo simulations to gradient descent implemented from scratch, I care about first principles.
+      </p>
+      <p>
+        I'm currently pursuing my M.S. in Mathematics, focused on applying quantitative methods to problems at the intersection of statistics, computation, and AI.
+      </p>
+      <div class="about-interests">
+        <h4>Research Interests</h4>
+        <ul class="interest-list">
+          <li>Statistical Learning Theory</li>
+          <li>Optimization &amp; Gradient Methods</li>
+          <li>Stochastic Processes &amp; Simulation</li>
+          <li>Mathematical Foundations of AI</li>
+          <li>Numerical Methods &amp; Scientific Computing</li>
+        </ul>
+      </div>
+    </div>
+    <div class="about-stats reveal">
+      <div class="stat-card">
+        <div class="stat-num">M.S.</div>
+        <div class="stat-label">Mathematics — in progress (2028)</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num">B.S.</div>
+        <div class="stat-label">Physics &amp; Mathematics — 2021</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num">5+</div>
+        <div class="stat-label">Technical tools &amp; languages</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num">6</div>
+        <div class="stat-label">Applied research projects</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- EDUCATION -->
+<section id="education" style="max-width:100%; padding:80px 0;">
+<div style="max-width:1100px; margin:0 auto; padding:0 6vw;">
+  <div class="section-label">02 — Education</div>
+  <div class="section-divider"></div>
+  <h2 class="section-heading">Academic Background</h2>
+  <div class="edu-grid" style="margin-top:3rem;">
+    <div class="edu-card reveal">
+      <div class="edu-degree">M.S. in Mathematics</div>
+      <div class="edu-school">University of Arizona Global Campus (UAGC)</div>
+      <div class="edu-year">Expected 2028 · In Progress</div>
+      <div class="edu-courses">
+        <h5>Relevant Coursework</h5>
+        <div class="course-tags">
+          <span class="course-tag">Linear Algebra</span>
+          <span class="course-tag">Probability Theory</span>
+          <span class="course-tag">Mathematical Statistics</span>
+          <span class="course-tag">Differential Equations</span>
+          <span class="course-tag">Numerical Analysis</span>
+          <span class="course-tag">Real Analysis</span>
+          <span class="course-tag">Mathematical Modeling</span>
+        </div>
+      </div>
+    </div>
+    <div class="edu-card reveal">
+      <div class="edu-degree">B.S. in Physics &amp; Mathematics</div>
+      <div class="edu-school">Undergraduate Institution</div>
+      <div class="edu-year">Graduated 2021</div>
+      <div class="edu-courses">
+        <h5>Relevant Coursework</h5>
+        <div class="course-tags">
+          <span class="course-tag">Calculus I–III</span>
+          <span class="course-tag">Classical Mechanics</span>
+          <span class="course-tag">Electromagnetism</span>
+          <span class="course-tag">Quantum Physics</span>
+          <span class="course-tag">Thermodynamics</span>
+          <span class="course-tag">Statistical Methods</span>
+          <span class="course-tag">Numerical Methods</span>
+          <span class="course-tag">Mathematical Methods for Physics</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- SKILLS -->
+<section id="skills">
+  <div class="section-label">03 — Skills</div>
+  <div class="section-divider"></div>
+  <h2 class="section-heading">Technical Toolkit</h2>
+  <div class="skills-grid">
+    <div class="skill-block reveal">
+      <div class="skill-block-icon">🐍</div>
+      <div class="skill-block-title">Programming Languages</div>
+      <div class="skill-pills">
+        <span class="skill-pill">Python</span>
+        <span class="skill-pill">MATLAB</span>
+        <span class="skill-pill">R</span>
+      </div>
+    </div>
+    <div class="skill-block reveal">
+      <div class="skill-block-icon">📊</div>
+      <div class="skill-block-title">Data &amp; Analysis</div>
+      <div class="skill-pills">
+        <span class="skill-pill">NumPy</span>
+        <span class="skill-pill">Pandas</span>
+        <span class="skill-pill">SciPy</span>
+        <span class="skill-pill">Matplotlib</span>
+        <span class="skill-pill">Excel</span>
+      </div>
+    </div>
+    <div class="skill-block reveal">
+      <div class="skill-block-icon">📐</div>
+      <div class="skill-block-title">Mathematical Methods</div>
+      <div class="skill-pills">
+        <span class="skill-pill">Statistical Inference</span>
+        <span class="skill-pill">Mathematical Modeling</span>
+        <span class="skill-pill">Numerical Analysis</span>
+        <span class="skill-pill">Proof Writing</span>
+      </div>
+    </div>
+    <div class="skill-block reveal">
+      <div class="skill-block-icon">🤖</div>
+      <div class="skill-block-title">ML &amp; Computation</div>
+      <div class="skill-pills">
+        <span class="skill-pill">Gradient Descent</span>
+        <span class="skill-pill">Monte Carlo Methods</span>
+        <span class="skill-pill">Bayesian Inference</span>
+        <span class="skill-pill">Regression Analysis</span>
+      </div>
+    </div>
+    <div class="skill-block reveal">
+      <div class="skill-block-icon">✍️</div>
+      <div class="skill-block-title">Technical Writing</div>
+      <div class="skill-pills">
+        <span class="skill-pill">LaTeX</span>
+        <span class="skill-pill">Jupyter Notebooks</span>
+        <span class="skill-pill">Scientific Documentation</span>
+      </div>
+    </div>
+    <div class="skill-block reveal">
+      <div class="skill-block-icon">🧠</div>
+      <div class="skill-block-title">Core Competencies</div>
+      <div class="skill-pills">
+        <span class="skill-pill">Analytical Reasoning</span>
+        <span class="skill-pill">Scientific Thinking</span>
+        <span class="skill-pill">Self-Directed Learning</span>
+        <span class="skill-pill">Problem Decomposition</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROJECTS -->
+<section id="projects">
+  <div class="section-label">04 — Projects</div>
+  <div class="section-divider"></div>
+  <h2 class="section-heading">Applied Research Projects</h2>
+  <p class="projects-intro">
+    Each project is built from first principles — understanding the mathematics first, then implementing it computationally.
+  </p>
+  <div class="projects-grid">
+
+    <a href="https://github.com/coyjohnson25/monte-carlo-simulations" target="_blank" class="project-card reveal">
+      <div class="project-num">PROJECT 01</div>
+      <div class="project-title">Monte Carlo Simulation Engine</div>
+      <div class="project-desc">Probabilistic simulations of stock price paths (Geometric Brownian Motion), random walks, π estimation, and risk modeling — with full mathematical derivation.</div>
+      <div class="project-stack">
+        <span class="project-tag">Python</span>
+        <span class="project-tag">NumPy</span>
+        <span class="project-tag">Matplotlib</span>
+        <span class="project-tag">Probability Theory</span>
+      </div>
+      <span class="project-link">View on GitHub</span>
+    </a>
+
+    <a href="https://github.com/coyjohnson25/statistical-inference-lab" target="_blank" class="project-card reveal">
+      <div class="project-num">PROJECT 02</div>
+      <div class="project-title">Statistical Inference Toolkit</div>
+      <div class="project-desc">Linear regression built from scratch, hypothesis testing, confidence intervals, and residual analysis — derived mathematically before comparison with sklearn.</div>
+      <div class="project-stack">
+        <span class="project-tag">Python</span>
+        <span class="project-tag">R</span>
+        <span class="project-tag">SciPy</span>
+        <span class="project-tag">Statistical Theory</span>
+      </div>
+      <span class="project-link">View on GitHub</span>
+    </a>
+
+    <a href="https://github.com/coyjohnson25/numerical-differential-equations" target="_blank" class="project-card reveal">
+      <div class="project-num">PROJECT 03</div>
+      <div class="project-title">Numerical Solutions to Differential Equations</div>
+      <div class="project-desc">Euler, Runge-Kutta, and stability analysis applied to physical systems: pendulum dynamics, population growth, and epidemic modeling.</div>
+      <div class="project-stack">
+        <span class="project-tag">Python</span>
+        <span class="project-tag">MATLAB</span>
+        <span class="project-tag">Numerical Analysis</span>
+        <span class="project-tag">Physics</span>
+      </div>
+      <span class="project-link">View on GitHub</span>
+    </a>
+
+    <a href="https://github.com/coyjohnson25/machine-learning-from-scratch" target="_blank" class="project-card reveal">
+      <div class="project-num">PROJECT 04</div>
+      <div class="project-title">Machine Learning from First Principles</div>
+      <div class="project-desc">Gradient descent, logistic regression, and a minimal neural network implemented manually — then benchmarked against sklearn to validate mathematical correctness.</div>
+      <div class="project-stack">
+        <span class="project-tag">Python</span>
+        <span class="project-tag">NumPy</span>
+        <span class="project-tag">Calculus</span>
+        <span class="project-tag">Linear Algebra</span>
+      </div>
+      <span class="project-link">View on GitHub</span>
+    </a>
+
+    <a href="https://github.com/coyjohnson25/predictive-modeling-case-study" target="_blank" class="project-card reveal">
+      <div class="project-num">PROJECT 05</div>
+      <div class="project-title">Predictive Modeling Case Study</div>
+      <div class="project-desc">End-to-end analysis on a real-world dataset: exploratory data analysis, feature engineering, statistical interpretation, and predictive modeling with clear conclusions.</div>
+      <div class="project-stack">
+        <span class="project-tag">Python</span>
+        <span class="project-tag">Pandas</span>
+        <span class="project-tag">Scikit-learn</span>
+        <span class="project-tag">Data Analysis</span>
+      </div>
+      <span class="project-link">View on GitHub</span>
+    </a>
+
+    <a href="https://github.com/coyjohnson25/bayesian-modeling-experiments" target="_blank" class="project-card reveal">
+      <div class="project-num">PROJECT 06</div>
+      <div class="project-title">Bayesian Modeling &amp; MCMC</div>
+      <div class="project-desc">Bayesian updating from prior to posterior, a simple MCMC sampler from scratch, and comparative analysis of prior influence on inference outcomes.</div>
+      <div class="project-stack">
+        <span class="project-tag">Python</span>
+        <span class="project-tag">PyMC</span>
+        <span class="project-tag">Probability Theory</span>
+        <span class="project-tag">Bayesian Statistics</span>
+      </div>
+      <span class="project-link">View on GitHub</span>
+    </a>
+
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact" style="max-width:100%; padding:0;">
+<div style="background:var(--ink); border-radius:8px; max-width:1100px; margin:0 auto 80px; padding:80px 6vw; text-align:center;" class="reveal">
+  <div class="section-label" style="color:var(--accent2);">05 — Contact</div>
+  <div class="section-divider" style="margin:0.75rem auto 0;"></div>
+  <h2 class="section-heading" style="color:#fff; margin-top:0.5rem;">Let's Connect</h2>
+  <p class="contact-sub">
+    Open to research collaborations, data science roles, and quantitative positions. Reach out — I'd love to talk.
+  </p>
+  <div class="contact-links">
+    <a href="mailto:coyjohnson25@gmail.com" class="contact-item">
+      <span class="contact-item-icon">✉️</span>
+      <span class="contact-item-label">coyjohnson25@gmail.com</span>
+    </a>
+    <a href="tel:8307451530" class="contact-item">
+      <span class="contact-item-icon">📞</span>
+      <span class="contact-item-label">830 745 1530</span>
+    </a>
+    <a href="https://github.com/coyjohnson25" target="_blank" class="contact-item">
+      <span class="contact-item-icon">💻</span>
+      <span class="contact-item-label">github.com/coyjohnson25</span>
+    </a>
+    <a href="https://linkedin.com/in/coyjohnson" target="_blank" class="contact-item">
+      <span class="contact-item-icon">🔗</span>
+      <span class="contact-item-label">LinkedIn</span>
+    </a>
+  </div>
+</div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  © 2025 Coy Johnson · Built for GitHub Pages · Quantitative Researcher &amp; Applied Mathematician
+</footer>
+
+<script>
+  // Scroll reveal
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry, i) => {
+      if (entry.isIntersecting) {
+        setTimeout(() => entry.target.classList.add('visible'), i * 80);
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.12 });
+  reveals.forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
